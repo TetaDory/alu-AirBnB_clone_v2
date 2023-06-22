@@ -65,6 +65,15 @@ def do_deploy(archive_path):
     if run("ln -s /data/web_static/releases/{}/ /data/web_static/current".
            format(name)).failed is True:
         return False
+
+    # Create 'hbnb_static' directory if it doesn't exist
+    if run("mkdir -p /var/www/html/hbnb_static").failed is True:
+        return False
+
+    # Sync 'hbnb_static' with 'current'
+    if run("rsync -a /data/web_static/current/ /var/www/html/hbnb_static/").failed is True:
+        return False
+
     return True
 
 
