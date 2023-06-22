@@ -22,7 +22,7 @@ echo "<html>
 
 # Create a symbolic link
 rm -f /data/web_static/current
-ln -s /data/web_static/releases/test/ /data/web_static/current
+ln -s /data/web_static/releases/test /data/web_static/current
 
 # Give ownership
 chown -R ubuntu:ubuntu /data/
