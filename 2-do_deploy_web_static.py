@@ -7,7 +7,7 @@ import re
 
 # Set the username and host for SSH connection to the server
 env.user = 'ubuntu'
-env.hosts = ['54.197.135.244', '54.167.3.103']
+env.hosts = ['<IP web-01>', '<IP web-02>']
 env.key_filename = '~/.ssh/id_rsa'
 
 
@@ -59,5 +59,20 @@ def do_deploy(archive_path):
     return True
 
 
+def deploy():
+    """
+    Create and distribute the archive to web servers
+    """
+    # Create the archive using do_pack function
+    archive_path = do_pack()
+
+    # Return False if no archive has been created
+    if not archive_path:
+        return False
+
+    # Deploy the archive using do_deploy function
+    return do_deploy(archive_path)
+
+
 # Usage:
-# fab -f 2-do_deploy_web_static.py do_deploy:/path/to/file.tgz
+# fab -f 2-do_deploy_web_static.py deploy
