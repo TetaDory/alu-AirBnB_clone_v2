@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+
 # This Bash script sets up web servers for the deployment of web_static.
 
 # Install Nginx if not already installed
@@ -21,7 +22,7 @@ echo "<html>
 </html>" > /data/web_static/releases/test/index.html
 
 # Create a symbolic link
-rm -f /data/web_static/current
+rm -rf /data/web_static/current
 ln -s /data/web_static/releases/test /data/web_static/current
 
 # Give ownership
@@ -30,9 +31,7 @@ chown -R ubuntu:ubuntu /data/
 # Update the Nginx configuration
 config_file="/etc/nginx/sites-available/default"
 config_text="location /hbnb_static/ {\n\talias /data/web_static/current/;\n\t}"
-if ! grep -qF "$config_text" "$config_file"; then
-    sed -i "/server {/a $config_text" "$config_file"
-fi
+sed -i "/server {/a\ $config_text" "$config_file"
 
 # Restart Nginx
 service nginx restart
