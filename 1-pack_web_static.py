@@ -1,13 +1,10 @@
 #!/usr/bin/python3
- """
-    Generates a .tgz archive from the contents of the web_static folder.
-
-    Returns:
-        str: The path of the generated archive if successful, None otherwise.
 """
-
+    script that generates '.tgz' archive from the contents of the 'web_static'
+"""
 from fabric.api import local
 from datetime import datetime
+
 
 def do_pack():
     """
@@ -15,14 +12,13 @@ def do_pack():
         Return: Success - '.tgz' archive path
                 Failure - None
     """
-    now = datetime.now().strftime("%Y%m%d%H%M%S")
-    archive_path = "versions/web_static_{}.tgz".format(now)
- 
-    local("mkdir -p versions")
- 
-    result = local("tar -czvf {} web_static".format(archive_path))
+    now = datetime.now()
+    now = now.strftime('%Y%m%d%H%M%S')
+    archive_path = 'versions/web_static_' + now + '.tgz'
 
-    if result.failed:
-        return None
+    local('mkdir -p versions/')
+    result = local('tar -cvzf {} web_static/'.format(archive_path))
 
-    return archive_path
+    if result.succeeded:
+        return archive_path
+    return None
