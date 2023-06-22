@@ -11,7 +11,7 @@ from datetime import datetime
 
 def do_pack():
     """
-    Define do_pack and
+    function to compress
     Returns:
         str: The path of the generated archive if successful, None otherwise.
     """
