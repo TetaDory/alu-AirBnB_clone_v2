@@ -41,3 +41,5 @@ sed -i "/server {/a $config_text" $config_file
 #Restart Nginx
 
 service nginx restart
+
+exit 0
