@@ -1,9 +1,8 @@
 #!/usr/bin/python3
 # script that distributes an archive to web servers
 from fabric.api import env, put, run
-from os.path import exists, isdir
+from datetime import datetime
 import os.path
-import re
 
 # Set the username and host for SSH connection to the server
 env.user = 'ubuntu'
@@ -11,12 +10,35 @@ env.hosts = ['<IP web-01>', '<IP web-02>']
 env.key_filename = '~/.ssh/id_rsa'
 
 
+def do_pack():
+    """
+    Create a compressed archive of the web_static folder
+    """
+    # Create the folder for storing the archive
+    current_time = datetime.utcnow().strftime("%Y%m%d%H%M%S")
+    archive_folder = "versions"
+    archive_path = "{}/web_static_{}.tgz".format(archive_folder, current_time)
+
+    # Create the archive folder if it doesn't exist
+    if not os.path.exists(archive_folder):
+        os.makedirs(archive_folder)
+
+    # Compress the web_static folder into a .tgz file
+    command = "tar -czvf {} web_static".format(archive_path)
+    result = local(command)
+
+    if result.failed:
+        return None
+
+    return archive_path
+
+
 def do_deploy(archive_path):
     """
-    Distributes archive to web servers
+    Distribute the archive to web servers
     """
     # Check if the archive file exists
-    if not exists(archive_path):
+    if not os.path.exists(archive_path):
         return False
 
     # Get the filename from the archive path
@@ -29,7 +51,7 @@ def do_deploy(archive_path):
     put(archive_path, remote_path)
 
     # Extract the name of the archive without extension
-    folder_name = re.search(r'(.+)\.tgz$', filename).group(1)
+    folder_name = filename.split('.')[0]
 
     # Create the path for the destination folder on the server
     destination_folder = "/data/web_static/releases/{}".format(folder_name)
