@@ -5,7 +5,7 @@ from os.path import exists
 
 # Set the username and target servers
 env.user = "ubuntu"
-env.hosts = ['5454-web-01', '5454-web-02']
+env.hosts = ['34.224.66.109', '3.95.37.145']
 env.key_filename = "~/.ssh/id_rsa"
 
 
