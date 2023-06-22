@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+
 # This Bash script sets up web servers for the deployment of web_static.
 
 # Install Nginx if not already installed
@@ -29,11 +30,11 @@ chown -R ubuntu:ubuntu /data/
 
 # Update the Nginx configuration
 config_file="/etc/nginx/sites-available/default"
-config_text="location /hbnb_static/ {\n\talias /data/web_static/current/;\n\t}"
-sed -i "/server {/a\ $config_text" "$config_file"
+config_text="location /hbnb_static/ {\n\talias /data/web_static/current/;\n\tautoindex off;\n}"
+sed -i "/listen 80 default_server;/a\ \n$config_text" "$config_file"
 
 # Restart Nginx
-service nginx restart
+systemctl restart nginx
 
 # Exit with success code
 exit 0
