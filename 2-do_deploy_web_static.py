@@ -66,16 +66,12 @@ def do_deploy(archive_path):
            format(name)).failed is True:
         return False
 
-    # Create 'hbnb_static' directory if it doesn't exist
-    if run("mkdir -p /var/www/html/hbnb_static").failed is True:
-        return False
-
-    # Sync 'hbnb_static' with 'current'
-    if run("rsync -a /data/web_static/current/ /var/www/html/hbnb_static/").failed is True:
-        return False
+    # Print debug information
+    print("Syncing 'hbnb_static' with 'current'...")
+    result = run("rsync -a /data/web_static/current/ /var/www/html/hbnb_static/")
+    print(result)
 
     return True
-
 
 def deploy():
     """ create & distribute an archive to a web server """
