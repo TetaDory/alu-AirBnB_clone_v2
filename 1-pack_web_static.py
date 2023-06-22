@@ -11,9 +11,9 @@ from datetime import datetime
 
 def do_pack():
     """
-    function to compress
-    Returns:
-        str: The path of the generated archive if successful, None otherwise.
+        function to compress directory into .tgz archive
+        Return: Success - '.tgz' archive path
+                Failure - None
     """
     now = datetime.now().strftime("%Y%m%d%H%M%S")
     archive_path = "versions/web_static_{}.tgz".format(now)
