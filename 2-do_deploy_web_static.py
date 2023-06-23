@@ -50,15 +50,12 @@ def do_deploy(archive_path):
     # Create new symbolic link
     run("ln -s {} /data/web_static/current".format(folder))
 
-    # Create 'hbnb_static' directory if it doesn't exist
-    if not isdir("/var/www/html/hbnb_static"):
-        run("sudo mkdir -p /var/www/html/hbnb_static")
-
     # Sync 'hbnb_static' with 'current'
-    run("sudo cp -r /data/web_static/current/* /var/www/html/hbnb_static/")
+    run("rsync -az --delete /data/web_static/current/ /var/www/html/hbnb_static/")
 
     print("New version deployed!")
     return True
+
 
 # Usage:
 # fab -f 2-do_deploy_web_static.py do_deploy:/path/to/file.tgz
