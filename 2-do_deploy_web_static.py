@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/bin/env python3
 """Fabric script that distributes an archive to your web servers"""
 from fabric.api import env, put, run
 from os.path import exists
@@ -7,7 +7,6 @@ from os.path import exists
 env.user = "ubuntu"
 env.hosts = ['34.224.66.109', '3.95.37.145']
 env.key_filename = "~/.ssh/id_rsa"
-
 
 def do_deploy(archive_path):
     """Function to distribute an archive to your web servers"""
