@@ -26,15 +26,10 @@ def do_deploy(archive_path):
         run('rm -rf /data/web_static/current')
         run('ln -s {}/ /data/web_static/current'.format(path_name))
 
-        # Create 'hbnb_static' directory if it doesn't exist
-        run("mkdir -p /data/web_static/releases/{}/hbnb_static".format(name))
-
-        # Move files from web_static to hbnb_static
-        run("mv {}/web_static/* {}/hbnb_static".format(path_name, path_name))
-
-        # Delete the empty web_static directory
-        run("rm -rf {}/web_static".format(path_name))
-
-        return True
+        # Check if hbnb_static/0-index.html exists
+        if exists("{}/hbnb_static/0-index.html".format(path_name)):
+            return True
+        else:
+            return False
     except Exception:
         return False
